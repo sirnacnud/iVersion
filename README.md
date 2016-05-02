@@ -222,7 +222,19 @@ If set to YES, iVersion will always display the contents of the local and remote
     @property (nonatomic, assign) BOOL useUIAlertControllerIfAvailable;
 
 By default, iVersion will use UIAlertView on iOS to display the rating prompt. UIAlertView was deprecated in iOS8 and replaced by UIAlertController. Unfortunately, unlike UIAlertView, presenting an alert with UIAlertController interferes with the ability of the app to display other controllers, and since iVersion could theoretically display an alert at any point during the app's lifetime, it might clash with the app attempting to present another view controller. For this reason, use of UIAlertController is disabled by default. Uou should only set thus property to YES if you are certain that it won't clash with your app logic (e.g, if you have disabled automatic version prompts, or if your app doesn't use any modal view controllers).
+    
+Affiliate linking
+--------------
 
+You can use the following optional properties to add [affiliate linking](http://www.apple.com/itunes/affiliates/). Currently, only [PHG](http://www.apple.com/itunes/affiliates/resources/documentation/basic_affiliate_link_guidelines_for_the_phg_network.html) is supported.
+
+    @property (nonatomic, strong) NSString *affiliateToken;
+
+Your affiliate token (`at` parameter). 
+
+    @property (nonatomic, strong) NSURL *campaignName;
+
+The campaign name (`ct` parameter).
 
 Advanced properties
 ---------------

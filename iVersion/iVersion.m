@@ -70,8 +70,8 @@ static NSString *const iVersionLastRemindedKey = @"iVersionLastReminded";
 static NSString *const iVersionMacAppStoreBundleID = @"com.apple.appstore";
 static NSString *const iVersionAppLookupURLFormat = @"http://itunes.apple.com/%@/lookup";
 
-static NSString *const iVersioniOSAppStoreURLFormat = @"itms-apps://itunes.apple.com/app/id%@";
-static NSString *const iVersionMacAppStoreURLFormat = @"macappstore://itunes.apple.com/app/id%@";
+static NSString *const iVersioniOSAppStoreURLFormat = @"itms-apps://itunes.apple.com/app/id%@?at=%@&ct=%@";
+static NSString *const iVersionMacAppStoreURLFormat = @"macappstore://itunes.apple.com/app/id%@?at=%@&ct=%@";
 
 
 #define SECONDS_IN_A_DAY 86400.0
@@ -276,13 +276,16 @@ static NSString *const iVersionMacAppStoreURLFormat = @"macappstore://itunes.app
         NSLog(@"iVersion error: No App Store ID was found for this application. If the application is not intended for App Store release then you must specify a custom updateURL.");
     }
     
+    NSString *affiliateToken = self.affiliateToken ? : @"";
+    NSString *campaignName = self.campaignName ? [self.campaignName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] : @"";
+    
 #if TARGET_OS_IPHONE
     
-    return [NSURL URLWithString:[NSString stringWithFormat:iVersioniOSAppStoreURLFormat, @(self.appStoreID)]];
+    return [NSURL URLWithString:[NSString stringWithFormat:iVersioniOSAppStoreURLFormat, @(self.appStoreID), affiliateToken, campaignName]];
     
 #else
     
-    return [NSURL URLWithString:[NSString stringWithFormat:iVersionMacAppStoreURLFormat, @(self.appStoreID)]];
+    return [NSURL URLWithString:[NSString stringWithFormat:iVersionMacAppStoreURLFormat, @(self.appStoreID), affiliateToken, campaignName]];
     
 #endif
     
